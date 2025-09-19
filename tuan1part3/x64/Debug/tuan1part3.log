@@ -1,0 +1,8 @@
+﻿  tuan1part3Dlg.cpp
+C:\Users\thain\source\repos\tuan1part3\tuan1part3\tuan1part3Dlg.cpp(181,31): warning C4805: '!=': unsafe mix of type 'BOOL' and type 'bool' in operation
+  (compiling source file '/tuan1part3Dlg.cpp')
+  
+C:\Users\thain\source\repos\tuan1part3\tuan1part3\tuan1part3Dlg.cpp(238,31): warning C4805: '!=': unsafe mix of type 'BOOL' and type 'bool' in operation
+  (compiling source file '/tuan1part3Dlg.cpp')
+  
+  tuan1part3.vcxproj -> C:\Users\thain\source\repos\tuan1part3\x64\Debug\tuan1part3.exe
