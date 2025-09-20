@@ -6,6 +6,10 @@
 #include "tuan1part3.h"
 #include "tuan1part3Dlg.h"
 #include "afxdialogex.h"
+#include <iostream>;
+#include <string>;
+#include <vector>;
+#include <fstream>;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -247,6 +251,22 @@ void Ctuan1part3Dlg::OnBnClickedButtonload()
 	//hien thi tren PATH
 	SetDlgItemText(IDC_PATH, (LPCWSTR)szFileName);
 
+	//read
+	HANDLE hFile;
+	//PVOID First_Bytes[2048];
+	char First_Bytes[2048];
+	DWORD dbr = 0;
+	hFile = CreateFile(
+		L"(LPWSTR)szFileName", 
+		GENERIC_READ, 
+		FILE_SHARE_READ, 
+		NULL, 
+		OPEN_EXISTING, 
+		FILE_ATTRIBUTE_NORMAL, 
+		NULL
+	);
+	CloseHandle(hFile);
+		
 	}
 		
 
