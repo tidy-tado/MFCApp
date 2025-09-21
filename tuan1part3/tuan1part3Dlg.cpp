@@ -200,7 +200,8 @@ void Ctuan1part3Dlg::OnBnClickedButtonsave()
 		GetDlgItemText(IDC_EDITSCREEN, text);
 		DWORD dwBytesWritten = 0;
 		BOOL bTest = FALSE;
-		HANDLE hFile = CreateFile(szFileName,                // name of the write
+		HANDLE hFile = CreateFile(
+			szFileName,                // name of the write
 			GENERIC_WRITE,          // open for writing
 			0,                      // do not share
 			NULL,                   // default security
@@ -251,21 +252,24 @@ void Ctuan1part3Dlg::OnBnClickedButtonload()
 	//hien thi tren PATH
 	SetDlgItemText(IDC_PATH, (LPCWSTR)szFileName);
 
-	//read
+	
+	
+		//read
 	HANDLE hFile;
-	//PVOID First_Bytes[2048];
-	char First_Bytes[2048];
-	DWORD dbr = 0;
-	hFile = CreateFile(
-		L"(LPWSTR)szFileName", 
-		GENERIC_READ, 
-		FILE_SHARE_READ, 
-		NULL, 
-		OPEN_EXISTING, 
-		FILE_ATTRIBUTE_NORMAL, 
-		NULL
-	);
-	CloseHandle(hFile);
+		BOOL bFile;
+		bFile = ReadFile(
+			hFile,
+			szFileName,
+			2048,
+			NULL,
+			NULL
+
+		);
+		
+	
+
+	
+
 		
 	}
 		

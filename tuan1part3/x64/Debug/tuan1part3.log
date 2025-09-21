@@ -1,4 +1,5 @@
-﻿  tuan1part3Dlg.cpp
+﻿  tuan1part3.cpp
+  tuan1part3Dlg.cpp
 C:\Users\thain\source\repos\tuan1part3\tuan1part3\tuan1part3Dlg.cpp(9,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
   (compiling source file '/tuan1part3Dlg.cpp')
   
@@ -17,7 +18,8 @@ C:\Users\thain\source\repos\tuan1part3\tuan1part3\tuan1part3Dlg.cpp(185,31): war
 C:\Users\thain\source\repos\tuan1part3\tuan1part3\tuan1part3Dlg.cpp(242,31): warning C4805: '!=': unsafe mix of type 'BOOL' and type 'bool' in operation
   (compiling source file '/tuan1part3Dlg.cpp')
   
-C:\Users\thain\source\repos\tuan1part3\tuan1part3\tuan1part3Dlg.cpp(257,7): warning C4101: 'First_Bytes': unreferenced local variable
+C:\Users\thain\source\repos\tuan1part3\tuan1part3\tuan1part3Dlg.cpp(258,7): warning C4101: 'First_Bytes': unreferenced local variable
   (compiling source file '/tuan1part3Dlg.cpp')
   
+  Generating Code...
   tuan1part3.vcxproj -> C:\Users\thain\source\repos\tuan1part3\x64\Debug\tuan1part3.exe
