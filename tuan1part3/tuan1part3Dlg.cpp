@@ -6,10 +6,13 @@
 #include "tuan1part3.h"
 #include "tuan1part3Dlg.h"
 #include "afxdialogex.h"
-#include <iostream>;
-#include <string>;
-#include <vector>;
-#include <fstream>;
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <stdio.h>
+#include <windows.h>
+#include <tchar.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -64,7 +67,6 @@ Ctuan1part3Dlg::Ctuan1part3Dlg(CWnd* pParent /*=nullptr*/)
 void Ctuan1part3Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_PATH, PATHNAME);
 }
 
 BEGIN_MESSAGE_MAP(Ctuan1part3Dlg, CDialogEx)
@@ -72,10 +74,8 @@ BEGIN_MESSAGE_MAP(Ctuan1part3Dlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTONSAVE, &Ctuan1part3Dlg::OnBnClickedButtonsave)
-	
-
 	ON_BN_CLICKED(IDC_BUTTONLOAD, &Ctuan1part3Dlg::OnBnClickedButtonload)
-
+	ON_EN_CHANGE(IDC_EDITSCREEN, &Ctuan1part3Dlg::OnEnChangeEditscreen)
 END_MESSAGE_MAP()
 
 
@@ -186,10 +186,7 @@ void Ctuan1part3Dlg::OnBnClickedButtonsave()
 	{
 		AfxMessageBox(_T("Saving file canceled!"));
 	}
-	else
-	{
-
-	}
+	
 
 	//hien thi tren PATH
 	SetDlgItemText(IDC_PATH, (LPCWSTR)szFileName);
@@ -222,56 +219,95 @@ void Ctuan1part3Dlg::OnBnClickedButtonsave()
 
 }
 
-
-
 //LOAD
 void Ctuan1part3Dlg::OnBnClickedButtonload()
 {
-	TCHAR szFileName[MAX_PATH] = { 0 };
+	WCHAR szFileName[MAX_PATH] = { 0 };
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(ofn));
 
 
 	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = NULL;
-	ofn.lpstrFilter = (LPCWSTR)L"Text Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0";
-	ofn.lpstrFile = (LPWSTR)szFileName;
+	ofn.lpstrFilter = L"Text Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0";
+	ofn.lpstrFile = szFileName;
+	ofn.lpstrFile[0] = '\0';
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-	ofn.lpstrDefExt = (LPCWSTR)L"txt";
+	
 
-	if (GetOpenFileName(&ofn) != true)
-	{
-		AfxMessageBox(_T("Loading file canceled!"));
-	}
-	else
-	{
-
-	}
+	GetOpenFileName(&ofn);
 
 	//hien thi tren PATH
-	SetDlgItemText(IDC_PATH, (LPCWSTR)szFileName);
+	SetDlgItemText(IDC_PATH, szFileName);
 
-	
-	
-		//read
-	HANDLE hFile;
-		BOOL bFile;
-		bFile = ReadFile(
-			hFile,
-			szFileName,
-			2048,
-			NULL,
-			NULL
 
-		);
-		
-	
+	HANDLE hFile = CreateFileW(
+		szFileName,               // file to open
+		GENERIC_READ,          // open for reading
+		FILE_SHARE_READ,       // share for reading
+		nullptr,                  // default security
+		OPEN_EXISTING,         // existing file only
+		FILE_ATTRIBUTE_NORMAL , // normal file
+		nullptr);                 // no attr. template
 
-	
+	if (hFile != INVALID_HANDLE_VALUE) {
+		DWORD fileSize = GetFileSize(hFile, nullptr);
+		if (fileSize != INVALID_FILE_SIZE)
+		{
+			std::vector<char> utf8_buffer(fileSize + 1, 0);
+			DWORD numberByte = 0;
+			BOOL passRead = ReadFile(
+				hFile,
+				utf8_buffer.data(),
+				fileSize,
+				&numberByte,
+				nullptr
+			);
 
-		
+			if (passRead && numberByte > 0) {
+				int sNeed = MultiByteToWideChar(
+					CP_UTF8,
+					0,
+					utf8_buffer.data(),
+					numberByte,
+					nullptr,
+					0
+				);
+
+				if (sNeed > 0) {
+					std::wstring wText(sNeed, 0);
+					MultiByteToWideChar(
+						CP_UTF8,
+						0,
+						utf8_buffer.data(),
+						numberByte,
+						&wText[0],
+						sNeed
+					);
+
+					SetDlgItemText(IDC_EDITSCREEN ,wText.c_str());
+				}
+			}
+		}
+		CloseHandle(hFile);
+	}
+	else {
+		DWORD error = GetLastError();
+		AfxMessageBox(L"Loi", MB_ICONWARNING);
+	}
+
+
 	}
 		
 
 
+
+void Ctuan1part3Dlg::OnEnChangeEditscreen()
+{
+	// TODO:  If this is a RICHEDIT control, the control will not
+	// send this notification unless you override the CDialogEx::OnInitDialog()
+	// function and call CRichEditCtrl().SetEventMask()
+	// with the ENM_CHANGE flag ORed into the mask.
+
+	// TODO:  Add your control notification handler code here
+}

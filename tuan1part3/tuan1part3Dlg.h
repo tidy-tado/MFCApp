@@ -30,11 +30,12 @@ protected:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+	
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButtonsave();
-	CStatic PATHNAME;
-	
+	afx_msg void display_file();
 	afx_msg void OnBnClickedButtonload();
 	
+	afx_msg void OnEnChangeEditscreen();
 };
